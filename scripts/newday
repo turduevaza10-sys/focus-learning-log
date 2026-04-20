@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+today="$(date +%F)"
+file="daily/$today.md"
+template="templates/daily-template.md"
+
+mkdir -p daily
+
+if [ -f "$file" ]; then
+  echo "Already exists: $file"
+else
+  if [ -f "$template" ]; then
+    cp "$template" "$file"
+    sed -i "1s/YYYY-MM-DD/$today/" "$file"
+  else
+    cat > "$file" <<EOT
+# $today
+
+## CS
+- Learned:
+- Practice:
+- Open question:
+
+## Cybersecurity
+- Lab/Topic:
+- Command(s):
+- Result:
+- Next step:
+
+## German B2
+- New words:
+- Grammar:
+- Example sentence:
+EOT
+  fi
+  echo "Created: $file"
+fi
+
+echo "$file"
